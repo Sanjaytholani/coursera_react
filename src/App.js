@@ -9,12 +9,7 @@ import './App.css';
 const store=ConfigureStore();
 
 class App extends React.Component {
-  constructor(props){
-      super(props);
-      this.state={
-        dishes: DISHES
-      };
-  }
+  
     render() {
         return(
       <Provider store={store}>
