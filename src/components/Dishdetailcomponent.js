@@ -19,15 +19,15 @@ const minLength = (len) => (val) => val && (val.length >= len);
               </Card>
         );
   }
-  function RenderComment({comments}){
+  function RenderComment({comments,addComment,dishId}){
         let commentlist=comments.map((comment)=>{
               return (
                   <li key={comment.id}>
                       {comment.comment}
-                      <br></br><br></br>
-                      --{comment.author},{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
                       <br></br>
-                  </li>
+                      --{comment.author},{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
+                      <br/><br/>
+                    </li>
               );
           })
           return(
@@ -36,7 +36,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                   <ul className="list-unstyled">
                       {commentlist}
                   </ul>
-                  <CommentForm />
+                  <CommentForm dishId={dishId} addComment={addComment} />
                   <br/>
                   <br/>
               </div>
@@ -62,7 +62,10 @@ const minLength = (len) => (val) => val && (val.length >= len);
                         <RenderDish dish={props.dish} />
                          </div>
                     <div className="col-12 col-md-5 m-1">
-                        <RenderComment comments={props.comments} />                     
+                        <RenderComment comments={props.comments} 
+                         addComment={props.addComment}
+                         dishId={props.dish.id}
+                        />                     
                      </div>  
                 </div>   
             </div>              
@@ -85,8 +88,8 @@ const minLength = (len) => (val) => val && (val.length >= len);
         });
       }
       handleSubmit(values) {
-        console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
+        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
     }
       render(){
           return (
@@ -107,14 +110,14 @@ const minLength = (len) => (val) => val && (val.length >= len);
                       </Control.select>
                   </FormGroup>
                   <FormGroup>
-                      <Label htmlFor="name">Your Name</Label>
-                      <Control.text model=".name" name="name" id="name" className="form-control"
+                      <Label htmlFor="author">Your Name</Label>
+                      <Control.text model=".author" name="author" id="author" className="form-control"
                       placeholder="Your Name" validators={{
                         minLength: minLength(3),maxLength: maxLength(15)
                     }}/>
                     <Errors 
                       className="text-danger"
-                      model=".name"
+                      model=".author"
                       show="touched"
                       messages={{
                           minLength: "Must be greater than 2 characters",
