@@ -21,7 +21,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
               </Card>
         );
   }
-  function RenderComment({comments,addComment,dishId}){
+  function RenderComment({comments,postComment,dishId}){
         let commentlist=comments.map((comment)=>{
               return (
                   <li key={comment.id}>
@@ -38,7 +38,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                   <ul className="list-unstyled">
                       {commentlist}
                   </ul>
-                  <CommentForm dishId={dishId} addComment={addComment} />
+                  <CommentForm dishId={dishId} postComment={postComment} />
                   <br/>
                   <br/>
               </div>
@@ -83,7 +83,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                          </div>
                     <div className="col-12 col-md-5 m-1">
                         <RenderComment comments={props.comments} 
-                         addComment={props.addComment}
+                         postComment={props.postComment}
                          dishId={props.dish.id}
                         />                     
                      </div>  
@@ -109,7 +109,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
       }
       handleSubmit(values) {
         this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
     }
       render(){
           return (
